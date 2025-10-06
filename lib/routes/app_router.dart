@@ -1,9 +1,11 @@
 import 'package:go_router/go_router.dart';
-import 'package:parqueadero_2025_g2/views/ciclo_vida/ciclo_vida_screen.dart';
-import 'package:parqueadero_2025_g2/views/paso_parametros/detalle_screen.dart';
-import 'package:parqueadero_2025_g2/views/paso_parametros/paso_parametros_screen.dart';
-import 'package:parqueadero_2025_g2/views/settings/settings_screen.dart';
-import 'package:parqueadero_2025_g2/views/profile/profile_screen.dart';
+import '../views/ciclo_vida/ciclo_vida_screen.dart';
+import '../views/paso_parametros/detalle_screen.dart';
+import '../views/paso_parametros/paso_parametros_screen.dart';
+import '../views/settings/settings_screen.dart';
+import '../views/profile/profile_screen.dart';
+import '../views/servicio_asincrono/servicio_asincrono_screen.dart';
+import '../views/cronometro/cronometro_screen.dart';
 
 import '../views/home/home_screen.dart';
 
@@ -47,6 +49,16 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/profile',
       builder: (context, state) => const ProfileScreen(),
+    ),
+    //!Ruta para Servicio Asíncrono
+    GoRoute(
+      path: '/servicio_asincrono',
+      builder: (context, state) => const ServicioAsincronoScreen(),
+    ),
+    //!Ruta para Cronómetro
+    GoRoute(
+      path: '/cronometro',
+      builder: (context, state) => const CronometroScreen(),
     ),
   ],
 );
