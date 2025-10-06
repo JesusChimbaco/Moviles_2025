@@ -78,6 +78,22 @@ class CustomDrawer extends StatelessWidget {
               context.go('/ciclo_vida');
             },
           ),
+          ListTile(
+            leading: const Icon(Icons.cloud_sync),
+            title: const Text('Servicio Asíncrono'),
+            onTap: () {
+              context.go('/servicio_asincrono');
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.timer),
+            title: const Text('Cronómetro'),
+            onTap: () {
+              context.go('/cronometro');
+              Navigator.pop(context);
+            },
+          ),
         ],
       ),
     );
