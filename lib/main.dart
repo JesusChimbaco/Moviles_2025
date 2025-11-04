@@ -1,8 +1,14 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:parqueadero_2025_g2/firebase_options.dart';
 import 'package:parqueadero_2025_g2/routes/app_router.dart';
 import 'themes/app_theme.dart'; // Importa el tema
 
-void main() {
+Future<void> main() async {
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+);
   runApp(const MyApp());
 }
 

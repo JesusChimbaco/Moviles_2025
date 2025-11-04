@@ -1,0 +1,80 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../models/universidad_fb.dart';
+
+class UniversidadService {
+  static final _ref = FirebaseFirestore.instance.collection('universidades');
+
+  /// Observa los cambios de una universidad por su ID
+  static Stream<UniversidadFb?> watchUniversidadById(String id) {
+    return _ref.doc(id).snapshots().map((doc) {
+      if (doc.exists) {
+        return UniversidadFb.fromMap(doc.id, doc.data()!);
+      }
+      return null;
+    });
+  }
+
+  /// Obtiene todas las universidades
+  static Future<List<UniversidadFb>> getUniversidades() async {
+    final snapshot = await _ref.get();
+    return snapshot.docs
+        .map((doc) => UniversidadFb.fromMap(doc.id, doc.data()))
+        .toList();
+  }
+
+  /// Agrega una nueva universidad
+  static Future<void> addUniversidad(UniversidadFb universidad) async {
+    await _ref.add(universidad.toMap());
+  }
+
+  /// Actualiza una universidad existente
+  static Future<void> updateUniversidad(UniversidadFb universidad) async {
+    await _ref.doc(universidad.id).update(universidad.toMap());
+  }
+
+  /// Obtiene una universidad por su ID
+  static Future<UniversidadFb?> getUniversidadById(String id) async {
+    final doc = await _ref.doc(id).get();
+    if (doc.exists) {
+      return UniversidadFb.fromMap(doc.id, doc.data()!);
+    }
+    return null;
+  }
+
+  /// Elimina una universidad
+  static Future<void> deleteUniversidad(String id) async {
+    await _ref.doc(id).delete();
+  }
+
+  /// Observa los cambios en la colección de universidades
+  /// y devuelve una lista de universidades actualizada en tiempo real
+  static Stream<List<UniversidadFb>> watchUniversidades() {
+    return _ref.snapshots().map((snapshot) {
+      return snapshot.docs
+          .map((doc) => UniversidadFb.fromMap(doc.id, doc.data()))
+          .toList();
+    });
+  }
+
+  /// Busca universidades por nombre
+  static Future<List<UniversidadFb>> searchUniversidadesByNombre(
+      String nombre) async {
+    final snapshot = await _ref
+        .where('nombre', isGreaterThanOrEqualTo: nombre)
+        .where('nombre', isLessThanOrEqualTo: '$nombre\uf8ff')
+        .get();
+    return snapshot.docs
+        .map((doc) => UniversidadFb.fromMap(doc.id, doc.data()))
+        .toList();
+  }
+
+  /// Busca una universidad por NIT
+  static Future<UniversidadFb?> getUniversidadByNit(String nit) async {
+    final snapshot = await _ref.where('nit', isEqualTo: nit).get();
+    if (snapshot.docs.isNotEmpty) {
+      final doc = snapshot.docs.first;
+      return UniversidadFb.fromMap(doc.id, doc.data());
+    }
+    return null;
+  }
+}
